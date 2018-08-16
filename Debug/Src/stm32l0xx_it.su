@@ -1,2 +1,4 @@
-stm32l0xx_it.c:51:6:SysTick_Handler	8	static
-stm32l0xx_it.c:73:6:EXTI4_15_IRQHandler	8	static
+stm32l0xx_it.c:51:6:SVC_Handler	0	static
+stm32l0xx_it.c:64:6:PendSV_Handler	0	static
+stm32l0xx_it.c:77:6:SysTick_Handler	8	static
+stm32l0xx_it.c:99:6:EXTI4_15_IRQHandler	8	static
