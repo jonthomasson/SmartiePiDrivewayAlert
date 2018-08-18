@@ -66,7 +66,8 @@ static void MX_USART2_UART_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+uint8_t spiDataRcv;
+uint8_t regVal = 0x24;
 /* USER CODE END 0 */
 
 /**
@@ -101,10 +102,32 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET); //SPI NSS setup
+  //perform reset on trx
+  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
+  HAL_Delay(10); //delay for 10ms.
+  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_SET);
+  HAL_Delay(10); //delay for 10ms.
+  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
   HAL_Delay(10); //delay for 10ms.
 
+  //read register
+  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET); //SPI NSS setup
+  HAL_Delay(10); //delay for 10ms.
+  //read data
+  //1. pull cs low to activate spi
+  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_RESET);
+  //2. transmit register address
+  //spiData[0] = REG_OPMODE;
+  //HAL_Delay(10); //delay for 10ms.
+  regVal = REG_SYNCCONFIG;
+  HAL_SPI_Transmit(&hspi1, &regVal, 1, 10);
+  //3. read
+  HAL_SPI_Receive(&hspi1, &spiDataRcv, 1, 10);
+  //4. bring cs high to deactivate
+  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET);
 
+  //print out result
+  HAL_UART_Transmit(&huart2, &spiDataRcv, 1, 0xFFFF);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -196,7 +219,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -248,7 +271,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|CE1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|RESET_Pin|CE1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -256,8 +279,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin CE1_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|CE1_Pin;
+  /*Configure GPIO pins : LD2_Pin RESET_Pin CE1_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|RESET_Pin|CE1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

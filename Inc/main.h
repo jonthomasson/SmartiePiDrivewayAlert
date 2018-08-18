@@ -63,6 +63,8 @@
 #define PIR1_Pin GPIO_PIN_6
 #define PIR1_GPIO_Port GPIOA
 #define PIR1_EXTI_IRQn EXTI4_15_IRQn
+#define RESET_Pin GPIO_PIN_9
+#define RESET_GPIO_Port GPIOA
 #define CE1_Pin GPIO_PIN_10
 #define CE1_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
