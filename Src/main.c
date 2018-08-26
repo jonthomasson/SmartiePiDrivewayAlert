@@ -45,6 +45,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "string.h"
+#include "SX1238/SX1238_STM32_Driver.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -63,8 +64,8 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-uint8_t spiDataRcv;
-uint8_t regVal = 0x24;
+//uint8_t spiDataRcv;
+//uint8_t regVal = 0x24;
 /* USER CODE END 0 */
 
 /**
@@ -99,32 +100,35 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+
+  SX1238_Init(); //Initialize SX1238 Trx
+
   //perform reset on trx
-  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
-  HAL_Delay(10); //delay for 10ms.
-  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_SET);
-  HAL_Delay(10); //delay for 10ms.
-  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
-  HAL_Delay(10); //delay for 10ms.
+//  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
+//  HAL_Delay(10); //delay for 10ms.
+//  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_SET);
+//  HAL_Delay(10); //delay for 10ms.
+//  HAL_GPIO_WritePin(GPIOA, RESET_Pin, GPIO_PIN_RESET);
+//  HAL_Delay(10); //delay for 10ms.
 
-  //read register
-  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET); //SPI NSS setup
-  HAL_Delay(10); //delay for 10ms.
-  //read data
-  //1. pull cs low to activate spi
-  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_RESET);
-  //2. transmit register address
-  //spiData[0] = REG_OPMODE;
-  //HAL_Delay(10); //delay for 10ms.
-  regVal = REG_SYNCCONFIG;
-  HAL_SPI_Transmit(&hspi1, &regVal, 1, 10);
-  //3. read
-  HAL_SPI_Receive(&hspi1, &spiDataRcv, 1, 10);
-  //4. bring cs high to deactivate
-  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET);
-
-  //print out result
-  HAL_UART_Transmit(&huart2, &spiDataRcv, 1, 0xFFFF);
+//  //read register
+//  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET); //SPI NSS setup
+//  HAL_Delay(10); //delay for 10ms.
+//  //read data
+//  //1. pull cs low to activate spi
+//  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_RESET);
+//  //2. transmit register address
+//  //spiData[0] = REG_OPMODE;
+//  //HAL_Delay(10); //delay for 10ms.
+//  regVal = REG_SYNCCONFIG;
+//  HAL_SPI_Transmit(&hspi1, &regVal, 1, 10);
+//  //3. read
+//  HAL_SPI_Receive(&hspi1, &spiDataRcv, 1, 10);
+//  //4. bring cs high to deactivate
+//  HAL_GPIO_WritePin(GPIOA, CE1_Pin, GPIO_PIN_SET);
+//
+//  //print out result
+//  HAL_UART_Transmit(&huart2, &spiDataRcv, 1, 0xFFFF);
   /* USER CODE END 2 */
 
   /* Infinite loop */
