@@ -85,6 +85,34 @@ void SX1238_Init(void)
 	SX1238_Reset();
 
 	//initialize registers
+	SX1238_Write_Register(REG_PACONFIG, 0x01); //output power to default
 
+	SX1238_Write_Register(REG_FIFOTHRESH, 0x8f); //fifo start condition not empty
+
+	SX1238_Write_Register(REG_PACKETCONFIG1, 0x80); //turn off crc
+	SX1238_Write_Register(REG_PACKETCONFIG2, 0x40); //packet mode
+
+	SX1238_Write_Register(REG_PREAMBLEMSB, 0x00); //preamble length
+	SX1238_Write_Register(REG_PREAMBLELSB, 0x03);
+
+	SX1238_Write_Register(REG_FRFMSB, 0xe4); //frequency 915MHz
+	SX1238_Write_Register(REG_FRFMID, 0xc0);
+	SX1238_Write_Register(REG_FRFLSB, 0x00);
+
+	SX1238_Write_Register(REG_SYNCCONFIG, 0x91); //auto restart, sync on, fill auto, sync size 2 bytes
+	SX1238_Write_Register(REG_SYNCVALUE1, 0x5A);
+	SX1238_Write_Register(REG_SYNCVALUE2, 0x5A);
+
+	SX1238_Write_Register(REG_BITRATEMSB, 0x1a); //bit rates etc...
+	SX1238_Write_Register(REG_BITRATELSB, 0x0b);
+
+	SX1238_Write_Register(REG_FDEVMSB, 0x00); //frequency deviation (deviation in Hz = fdev * 61)
+	SX1238_Write_Register(REG_FDEVLSB, 0x52); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
+
+	SX1238_Write_Register(REG_RXBW, 0x05);
+
+	SX1238_Write_Register(REG_NODEADRS, NODE_ADDRESS);
+
+	SX1238_Set_Mode(SX1238_MODE_STANDBY);
 
 }
