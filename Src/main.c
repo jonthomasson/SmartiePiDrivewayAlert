@@ -37,7 +37,6 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-
 #include "main.h"
 #include "stm32l0xx_hal.h"
 #include "spi.h"
@@ -65,7 +64,7 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-#define NODE_ADDRESS                10
+
 //uint8_t spiDataRcv;
 //uint8_t regVal = 0x24;
 /* USER CODE END 0 */
