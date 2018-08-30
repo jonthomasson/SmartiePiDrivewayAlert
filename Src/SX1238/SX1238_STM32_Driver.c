@@ -5,8 +5,8 @@
 #include "gpio.h"
 
 /* Global Variables ------------------------------------------------------------------*/
-//uint8_t spiDataRcv;
-//uint8_t regVal = 0x24;
+uint8_t _mode; //current mode of trx
+
 
 void SX1238_Reset(void)
 {
@@ -19,9 +19,55 @@ void SX1238_Reset(void)
 	HAL_Delay(10); //delay for 10ms.
 }
 
-void SX1238_Set_Mode(uint8_t mode)
+void SX1238_Set_Mode(uint8_t newMode)
 {
+	uint8_t rcv;
+	uint8_t foundFlag = 0;
 
+	if(newMode == _mode) //if it's the same mode, just return.
+	{
+		return;
+	}
+
+	SX1238_Write_Register(REG_OPMODE, newMode | 0x08); //adding gausian filter too...
+
+
+
+	while (foundFlag == 0) // wait for ModeReady
+	{
+		SX1238_Read_Register(REG_IRQFLAGS1, &rcv);
+
+		if((rcv & RF_IRQFLAGS1_MODEREADY) == 0x00)
+		{
+			foundFlag = 1;
+		}
+	}
+	_mode = newMode;
+
+	switch (newMode) {
+	case SX1238_MODE_TX:
+		HAL_GPIO_WritePin(SX1238_RXEN_PORT, SX1238_RXEN_PIN, GPIO_PIN_RESET); //disable rx
+		HAL_GPIO_WritePin(SX1238_MODE_PORT, SX1238_MODE_PIN, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(SX1238_TXEN_PORT, SX1238_TXEN_PIN, GPIO_PIN_SET);   //enable power amp transmitter
+		break;
+	case SX1238_MODE_RX:
+		HAL_GPIO_WritePin(SX1238_RXEN_PORT, SX1238_RXEN_PIN, GPIO_PIN_SET);   //enable rx
+		HAL_GPIO_WritePin(SX1238_MODE_PORT, SX1238_MODE_PIN, GPIO_PIN_RESET); //low gain mode for now
+		HAL_GPIO_WritePin(SX1238_TXEN_PORT, SX1238_TXEN_PIN, GPIO_PIN_RESET); //disable power amp transmitter
+		break;
+	case SX1238_MODE_SLEEP:
+		HAL_GPIO_WritePin(SX1238_RXEN_PORT, SX1238_RXEN_PIN, GPIO_PIN_RESET); //disable rx
+		HAL_GPIO_WritePin(SX1238_MODE_PORT, SX1238_MODE_PIN, GPIO_PIN_RESET); //low gain mode for now
+		HAL_GPIO_WritePin(SX1238_TXEN_PORT, SX1238_TXEN_PIN, GPIO_PIN_RESET); //disable power amp transmitter
+		break;
+	case SX1238_MODE_STANDBY:
+		HAL_GPIO_WritePin(SX1238_RXEN_PORT, SX1238_RXEN_PIN, GPIO_PIN_RESET); //disable rx
+		HAL_GPIO_WritePin(SX1238_MODE_PORT, SX1238_MODE_PIN, GPIO_PIN_RESET); //low gain mode for now
+		HAL_GPIO_WritePin(SX1238_TXEN_PORT, SX1238_TXEN_PIN, GPIO_PIN_RESET); //disable power amp transmitter
+		break;
+	default:
+		return;
+	}
 }
 
 void SX1238_SPI_Select()
@@ -111,8 +157,8 @@ void SX1238_Init(void)
 
 	SX1238_Write_Register(REG_RXBW, 0x05);
 
-	SX1238_Write_Register(REG_NODEADRS, NODE_ADDRESS);
+	SX1238_Write_Register(REG_NODEADRS, NODE_ADDRESS); //setting node address
 
-	SX1238_Set_Mode(SX1238_MODE_STANDBY);
+	SX1238_Set_Mode(SX1238_MODE_STANDBY); //enter standby mode
 
 }
