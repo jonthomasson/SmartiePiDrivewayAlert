@@ -213,6 +213,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  char *msg = "Driveway Alarm Triggered!\n\r";
 
 	  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 0xFFFF);
+  }else if(GPIO_Pin == SX1238_IRQ_Pin)
+  {
+	  //let SX1238 driver handle from here
   }
 }
 

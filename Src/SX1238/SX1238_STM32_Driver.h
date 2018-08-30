@@ -173,6 +173,10 @@
 #define SX1238_CE_PORT				GPIOA
 #define SX1238_CE_PIN				CE1_Pin
 
+//SX1238 IRQ PIN AND PORT
+#define SX1238_IRQ_PORT				GPIOA
+#define SX1238_IRQ_PIN				SX1238_IRQ_Pin
+
 #define NODE_ADDRESS                10
 
 
