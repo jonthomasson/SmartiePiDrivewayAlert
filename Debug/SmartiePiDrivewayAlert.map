@@ -791,6 +791,8 @@ Discarded input sections
  .text          0x00000000        0x0 Src\SX1238\SX1238_STM32_Driver.o
  .data          0x00000000        0x0 Src\SX1238\SX1238_STM32_Driver.o
  .bss           0x00000000        0x0 Src\SX1238\SX1238_STM32_Driver.o
+ .text.SX1238_Send_Frame
+                0x00000000       0xc8 Src\SX1238\SX1238_STM32_Driver.o
  .text          0x00000000        0x0 Src\gpio.o
  .data          0x00000000        0x0 Src\gpio.o
  .bss           0x00000000        0x0 Src\gpio.o
@@ -1359,7 +1361,7 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../l
                 0x00000466       0x1e c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m/crtn.o
 OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x11558
+.debug_info     0x00000000    0x11722
  .debug_info    0x00000000     0x100e Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_info    0x0000100e     0x1156 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_info    0x00002164      0xede Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1367,17 +1369,17 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_info    0x0000440f     0x10dc Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_info    0x000054eb     0x1d88 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_info    0x00007273     0x2226 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_info    0x00009499     0x179d Src\SX1238\SX1238_STM32_Driver.o
- .debug_info    0x0000ac36      0xdee Src\gpio.o
- .debug_info    0x0000ba24     0x1712 Src\main.o
- .debug_info    0x0000d136     0x110c Src\spi.o
- .debug_info    0x0000e242      0xbb0 Src\stm32l0xx_hal_msp.o
- .debug_info    0x0000edf2      0x9e3 Src\stm32l0xx_it.o
- .debug_info    0x0000f7d5      0xb9e Src\system_stm32l0xx.o
- .debug_info    0x00010373     0x1152 Src\usart.o
- .debug_info    0x000114c5       0x93 startup\startup_stm32l073xx.o
+ .debug_info    0x00009499     0x1967 Src\SX1238\SX1238_STM32_Driver.o
+ .debug_info    0x0000ae00      0xdee Src\gpio.o
+ .debug_info    0x0000bbee     0x1712 Src\main.o
+ .debug_info    0x0000d300     0x110c Src\spi.o
+ .debug_info    0x0000e40c      0xbb0 Src\stm32l0xx_hal_msp.o
+ .debug_info    0x0000efbc      0x9e3 Src\stm32l0xx_it.o
+ .debug_info    0x0000f99f      0xb9e Src\system_stm32l0xx.o
+ .debug_info    0x0001053d     0x1152 Src\usart.o
+ .debug_info    0x0001168f       0x93 startup\startup_stm32l073xx.o
 
-.debug_abbrev   0x00000000     0x260f
+.debug_abbrev   0x00000000     0x262c
  .debug_abbrev  0x00000000      0x2c0 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_abbrev  0x000002c0      0x319 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_abbrev  0x000005d9      0x252 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1385,17 +1387,17 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_abbrev  0x00000b55      0x2b2 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_abbrev  0x00000e07      0x357 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_abbrev  0x0000115e      0x3a7 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_abbrev  0x00001505      0x2aa Src\SX1238\SX1238_STM32_Driver.o
- .debug_abbrev  0x000017af      0x1f5 Src\gpio.o
- .debug_abbrev  0x000019a4      0x2af Src\main.o
- .debug_abbrev  0x00001c53      0x210 Src\spi.o
- .debug_abbrev  0x00001e63      0x1dd Src\stm32l0xx_hal_msp.o
- .debug_abbrev  0x00002040      0x1e3 Src\stm32l0xx_it.o
- .debug_abbrev  0x00002223      0x1ca Src\system_stm32l0xx.o
- .debug_abbrev  0x000023ed      0x210 Src\usart.o
- .debug_abbrev  0x000025fd       0x12 startup\startup_stm32l073xx.o
+ .debug_abbrev  0x00001505      0x2c7 Src\SX1238\SX1238_STM32_Driver.o
+ .debug_abbrev  0x000017cc      0x1f5 Src\gpio.o
+ .debug_abbrev  0x000019c1      0x2af Src\main.o
+ .debug_abbrev  0x00001c70      0x210 Src\spi.o
+ .debug_abbrev  0x00001e80      0x1dd Src\stm32l0xx_hal_msp.o
+ .debug_abbrev  0x0000205d      0x1e3 Src\stm32l0xx_it.o
+ .debug_abbrev  0x00002240      0x1ca Src\system_stm32l0xx.o
+ .debug_abbrev  0x0000240a      0x210 Src\usart.o
+ .debug_abbrev  0x0000261a       0x12 startup\startup_stm32l073xx.o
 
-.debug_loc      0x00000000     0x3cb6
+.debug_loc      0x00000000     0x3dd0
  .debug_loc     0x00000000       0xac Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_loc     0x000000ac      0x3cc Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_loc     0x00000478      0x2f9 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1403,13 +1405,13 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_loc     0x00000d28      0x73b Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_loc     0x00001463      0xfdf Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_loc     0x00002442     0x151a Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_loc     0x0000395c      0x11e Src\SX1238\SX1238_STM32_Driver.o
- .debug_loc     0x00003a7a       0x39 Src\main.o
- .debug_loc     0x00003ab3       0x42 Src\spi.o
- .debug_loc     0x00003af5      0x17f Src\system_stm32l0xx.o
- .debug_loc     0x00003c74       0x42 Src\usart.o
+ .debug_loc     0x0000395c      0x238 Src\SX1238\SX1238_STM32_Driver.o
+ .debug_loc     0x00003b94       0x39 Src\main.o
+ .debug_loc     0x00003bcd       0x42 Src\spi.o
+ .debug_loc     0x00003c0f      0x17f Src\system_stm32l0xx.o
+ .debug_loc     0x00003d8e       0x42 Src\usart.o
 
-.debug_aranges  0x00000000      0x710
+.debug_aranges  0x00000000      0x718
  .debug_aranges
                 0x00000000       0xd8 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_aranges
@@ -1425,25 +1427,25 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_aranges
                 0x000003d8      0x188 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
  .debug_aranges
-                0x00000560       0x58 Src\SX1238\SX1238_STM32_Driver.o
+                0x00000560       0x60 Src\SX1238\SX1238_STM32_Driver.o
  .debug_aranges
-                0x000005b8       0x20 Src\gpio.o
+                0x000005c0       0x20 Src\gpio.o
  .debug_aranges
-                0x000005d8       0x38 Src\main.o
+                0x000005e0       0x38 Src\main.o
  .debug_aranges
-                0x00000610       0x30 Src\spi.o
+                0x00000618       0x30 Src\spi.o
  .debug_aranges
-                0x00000640       0x20 Src\stm32l0xx_hal_msp.o
+                0x00000648       0x20 Src\stm32l0xx_hal_msp.o
  .debug_aranges
-                0x00000660       0x30 Src\stm32l0xx_it.o
+                0x00000668       0x30 Src\stm32l0xx_it.o
  .debug_aranges
-                0x00000690       0x28 Src\system_stm32l0xx.o
+                0x00000698       0x28 Src\system_stm32l0xx.o
  .debug_aranges
-                0x000006b8       0x30 Src\usart.o
+                0x000006c0       0x30 Src\usart.o
  .debug_aranges
-                0x000006e8       0x28 startup\startup_stm32l073xx.o
+                0x000006f0       0x28 startup\startup_stm32l073xx.o
 
-.debug_ranges   0x00000000      0x860
+.debug_ranges   0x00000000      0x880
  .debug_ranges  0x00000000       0xc8 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_ranges  0x000000c8      0x128 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_ranges  0x000001f0       0x48 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1451,17 +1453,17 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_ranges  0x00000318       0xa8 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_ranges  0x000003c0      0x158 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_ranges  0x00000518      0x178 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_ranges  0x00000690       0x48 Src\SX1238\SX1238_STM32_Driver.o
- .debug_ranges  0x000006d8       0xb8 Src\gpio.o
- .debug_ranges  0x00000790       0x28 Src\main.o
- .debug_ranges  0x000007b8       0x20 Src\spi.o
- .debug_ranges  0x000007d8       0x10 Src\stm32l0xx_hal_msp.o
- .debug_ranges  0x000007e8       0x20 Src\stm32l0xx_it.o
- .debug_ranges  0x00000808       0x18 Src\system_stm32l0xx.o
- .debug_ranges  0x00000820       0x20 Src\usart.o
- .debug_ranges  0x00000840       0x20 startup\startup_stm32l073xx.o
+ .debug_ranges  0x00000690       0x68 Src\SX1238\SX1238_STM32_Driver.o
+ .debug_ranges  0x000006f8       0xb8 Src\gpio.o
+ .debug_ranges  0x000007b0       0x28 Src\main.o
+ .debug_ranges  0x000007d8       0x20 Src\spi.o
+ .debug_ranges  0x000007f8       0x10 Src\stm32l0xx_hal_msp.o
+ .debug_ranges  0x00000808       0x20 Src\stm32l0xx_it.o
+ .debug_ranges  0x00000828       0x18 Src\system_stm32l0xx.o
+ .debug_ranges  0x00000840       0x20 Src\usart.o
+ .debug_ranges  0x00000860       0x20 startup\startup_stm32l073xx.o
 
-.debug_line     0x00000000     0x4c48
+.debug_line     0x00000000     0x4c97
  .debug_line    0x00000000      0x49c Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_line    0x0000049c      0x47f Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_line    0x0000091b      0x44e Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1469,17 +1471,17 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_line    0x000013e1      0x62c Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_line    0x00001a0d      0xbf5 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_line    0x00002602      0xe28 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_line    0x0000342a      0x3c1 Src\SX1238\SX1238_STM32_Driver.o
- .debug_line    0x000037eb      0x2a4 Src\gpio.o
- .debug_line    0x00003a8f      0x3c2 Src\main.o
- .debug_line    0x00003e51      0x302 Src\spi.o
- .debug_line    0x00004153      0x262 Src\stm32l0xx_hal_msp.o
- .debug_line    0x000043b5      0x296 Src\stm32l0xx_it.o
- .debug_line    0x0000464b      0x286 Src\system_stm32l0xx.o
- .debug_line    0x000048d1      0x2f4 Src\usart.o
- .debug_line    0x00004bc5       0x83 startup\startup_stm32l073xx.o
+ .debug_line    0x0000342a      0x410 Src\SX1238\SX1238_STM32_Driver.o
+ .debug_line    0x0000383a      0x2a4 Src\gpio.o
+ .debug_line    0x00003ade      0x3c2 Src\main.o
+ .debug_line    0x00003ea0      0x302 Src\spi.o
+ .debug_line    0x000041a2      0x262 Src\stm32l0xx_hal_msp.o
+ .debug_line    0x00004404      0x296 Src\stm32l0xx_it.o
+ .debug_line    0x0000469a      0x286 Src\system_stm32l0xx.o
+ .debug_line    0x00004920      0x2f4 Src\usart.o
+ .debug_line    0x00004c14       0x83 startup\startup_stm32l073xx.o
 
-.debug_str      0x00000000     0x29e6
+.debug_str      0x00000000     0x2a35
  .debug_str     0x00000000      0xb8e Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
                                 0xc1b (size before relaxing)
  .debug_str     0x00000b8e      0x2b3 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
@@ -1494,21 +1496,21 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
                                 0xdff (size before relaxing)
  .debug_str     0x00001e77      0x91e Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
                                0x1350 (size before relaxing)
- .debug_str     0x00002795       0xdc Src\SX1238\SX1238_STM32_Driver.o
-                                0xd51 (size before relaxing)
- .debug_str     0x00002871       0x2b Src\gpio.o
+ .debug_str     0x00002795      0x12b Src\SX1238\SX1238_STM32_Driver.o
+                                0xda0 (size before relaxing)
+ .debug_str     0x000028c0       0x2b Src\gpio.o
                                 0x970 (size before relaxing)
- .debug_str     0x0000289c       0x5b Src\main.o
+ .debug_str     0x000028eb       0x5b Src\main.o
                                0x11cc (size before relaxing)
- .debug_str     0x000028f7       0x17 Src\spi.o
+ .debug_str     0x00002946       0x17 Src\spi.o
                                 0xb75 (size before relaxing)
- .debug_str     0x0000290e       0x1b Src\stm32l0xx_hal_msp.o
+ .debug_str     0x0000295d       0x1b Src\stm32l0xx_hal_msp.o
                                 0x8a5 (size before relaxing)
- .debug_str     0x00002929       0x55 Src\stm32l0xx_it.o
+ .debug_str     0x00002978       0x55 Src\stm32l0xx_it.o
                                 0x6b3 (size before relaxing)
- .debug_str     0x0000297e       0x4e Src\system_stm32l0xx.o
+ .debug_str     0x000029cd       0x4e Src\system_stm32l0xx.o
                                 0x731 (size before relaxing)
- .debug_str     0x000029cc       0x1a Src\usart.o
+ .debug_str     0x00002a1b       0x1a Src\usart.o
                                 0xc28 (size before relaxing)
 
 .comment        0x00000000       0x7c
@@ -1529,7 +1531,7 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .comment       0x0000007c       0x7d Src\system_stm32l0xx.o
  .comment       0x0000007c       0x7d Src\usart.o
 
-.debug_frame    0x00000000     0x130c
+.debug_frame    0x00000000     0x132c
  .debug_frame   0x00000000      0x1c4 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_frame   0x000001c4       0xfc Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_frame   0x000002c0       0xbc Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1537,14 +1539,14 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_frame   0x000004d0      0x18c Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_rcc_ex.o
  .debug_frame   0x0000065c      0x3c8 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_spi.o
  .debug_frame   0x00000a24      0x538 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
- .debug_frame   0x00000f5c       0xfc Src\SX1238\SX1238_STM32_Driver.o
- .debug_frame   0x00001058       0x30 Src\gpio.o
- .debug_frame   0x00001088       0x74 Src\main.o
- .debug_frame   0x000010fc       0x60 Src\spi.o
- .debug_frame   0x0000115c       0x28 Src\stm32l0xx_hal_msp.o
- .debug_frame   0x00001184       0x60 Src\stm32l0xx_it.o
- .debug_frame   0x000011e4       0x3c Src\system_stm32l0xx.o
- .debug_frame   0x00001220       0x64 Src\usart.o
- .debug_frame   0x00001284       0x2c c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv6-m\libc_nano.a(lib_a-init.o)
- .debug_frame   0x000012b0       0x20 c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m\libgcc.a(_udivsi3.o)
- .debug_frame   0x000012d0       0x3c c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m\libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x00000f5c      0x11c Src\SX1238\SX1238_STM32_Driver.o
+ .debug_frame   0x00001078       0x30 Src\gpio.o
+ .debug_frame   0x000010a8       0x74 Src\main.o
+ .debug_frame   0x0000111c       0x60 Src\spi.o
+ .debug_frame   0x0000117c       0x28 Src\stm32l0xx_hal_msp.o
+ .debug_frame   0x000011a4       0x60 Src\stm32l0xx_it.o
+ .debug_frame   0x00001204       0x3c Src\system_stm32l0xx.o
+ .debug_frame   0x00001240       0x64 Src\usart.o
+ .debug_frame   0x000012a4       0x2c c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/../../../../arm-atollic-eabi/lib/armv6-m\libc_nano.a(lib_a-init.o)
+ .debug_frame   0x000012d0       0x20 c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x000012f0       0x3c c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m\libgcc.a(_udivmoddi4.o)

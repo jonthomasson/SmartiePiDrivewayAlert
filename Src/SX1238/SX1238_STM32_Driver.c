@@ -70,6 +70,60 @@ void SX1238_Set_Mode(uint8_t newMode)
 	}
 }
 
+void SX1238_Send_Frame(uint8_t toAddress, const void* buffer, uint8_t bufferSize, bool requestACK, bool sendACK)
+{
+	uint8_t regVal = 0;
+	  SX1238_Set_Mode(SX1238_MODE_STANDBY); // turn off receiver to prevent reception while filling fifo
+
+	  SX1238_Write_Register(REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_00); // DIO0 is "Packet Sent"
+	  if (bufferSize > MAX_DATA_LEN)
+	  {
+		  bufferSize = MAX_DATA_LEN;
+	  }
+
+	  // control byte. Note: we may not need this part.
+	  uint8_t CTLbyte = 0x00;
+	  if (sendACK)
+	  {
+		  CTLbyte = CTL_SENDACK;
+	  }else if(requestACK)
+	  {
+		  CTLbyte = CTL_REQACK;
+	  }
+
+
+
+	  // write to FIFO
+	  SX1238_SPI_Select();
+	  regVal = REG_FIFO | 0x80;
+	  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+	  regVal = bufferSize + 3;
+	  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+	  regVal = toAddress;
+	  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+	  regVal = NODE_ADDRESS;
+	  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+	  regVal = CTLbyte;
+	  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+	  //SPI.transfer(REG_FIFO | 0x80);
+	  //SPI.transfer(bufferSize + 3);
+	  //SPI.transfer(toAddress);
+	  //SPI.transfer(ADDRESS);
+	  //SPI.transfer(CTLbyte);
+
+	  for (uint8_t i = 0; i < bufferSize; i++)
+	  {
+		  regVal = ((uint8_t*) buffer)[i];
+		  HAL_SPI_Transmit(HSPI_INSTANCE, &regVal, 1, 10);
+		  //SPI.transfer(((uint8_t*) buffer)[i]);
+	  }
+
+	  SX1238_SPI_Unselect();
+
+	  // no need to wait for transmit mode to be ready since its handled by the radio
+	  SX1238_Set_Mode(SX1238_MODE_TX);
+}
+
 void SX1238_SPI_Select()
 {
 	//pull ce low to activate spi

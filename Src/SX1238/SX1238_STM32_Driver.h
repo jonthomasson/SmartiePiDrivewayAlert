@@ -4,6 +4,7 @@
 #define SX1238_STM32_DRIVER_H
 
 #include "stdint.h"
+#include "stdbool.h"
 
 
 // **********************************************************************************
@@ -89,12 +90,14 @@
 //#define TX_EN             7
 //#define RX_EN             9
 //#define MODE              6
-//#define MAX_DATA_LEN      61   //may not need later
+#define MAX_DATA_LEN      61   //may not need later
 //#define TX_LIMIT_MS       1000 //may not need later
 //#define ADDRESS           10   //may not need later
 //#define DIO0_INTERRUPT    3
 //#define NODE_TO_ADDR      2    //node receiving data
 //#define RESET         	  52
+#define CTL_SENDACK   0x80     //may not need later
+#define CTL_REQACK    0x40     //may not need later
 
 
 // RegIrqFlags1
@@ -181,6 +184,7 @@ void SX1238_Write_Register(uint8_t addr, uint8_t value);
 void SX1238_Set_Mode(uint8_t mode);
 void SX1238_SPI_Select();
 void SX1238_SPI_Unselect();
+void SX1238_Send_Frame(uint8_t toAddress, const void* buffer, uint8_t bufferSize, bool requestACK, bool sendACK);
 
 
 
