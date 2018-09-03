@@ -52,7 +52,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+int16_t packetnum = 0;  // packet counter, we increment per xmission
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,7 +60,7 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+char* itoa(int, char* , int);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -123,6 +123,15 @@ int main(void)
 
   while (1)
   {
+  //transmit once a second
+  HAL_Delay(1000);
+
+  char radiopacket[20] = "Hello World #";
+  itoa(packetnum++, radiopacket+13, 10);
+
+  //transmit packets
+  //Serial.println("Sending Packet");
+  SX1238_Send_Frame(NODE_TO_ADDR, radiopacket, strlen(radiopacket), false, false);
 
   /* USER CODE END WHILE */
 
@@ -216,6 +225,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   }else if(GPIO_Pin == SX1238_IRQ_Pin)
   {
 	  //let SX1238 driver handle from here
+	  SX1238_Handle_Interrupt();
   }
 }
 

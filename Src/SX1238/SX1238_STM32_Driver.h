@@ -178,6 +178,7 @@
 #define SX1238_IRQ_PIN				SX1238_IRQ_Pin
 
 #define NODE_ADDRESS                10
+#define NODE_TO_ADDR                20
 
 
 //function prototypes
@@ -186,8 +187,9 @@ void SX1238_Reset(void);
 void SX1238_Read_Register(uint8_t addr, uint8_t *pOut);
 void SX1238_Write_Register(uint8_t addr, uint8_t value);
 void SX1238_Set_Mode(uint8_t mode);
-void SX1238_SPI_Select();
-void SX1238_SPI_Unselect();
+void SX1238_SPI_Select(void);
+void SX1238_SPI_Unselect(void);
+void SX1238_Handle_Interrupt(void);
 void SX1238_Send_Frame(uint8_t toAddress, const void* buffer, uint8_t bufferSize, bool requestACK, bool sendACK);
 
 
