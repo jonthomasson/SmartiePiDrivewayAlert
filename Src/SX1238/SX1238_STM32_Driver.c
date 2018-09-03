@@ -17,6 +17,7 @@ void SX1238_Reset(void)
 	HAL_GPIO_WritePin(SX1238_MODE_PORT, SX1238_MODE_PIN, GPIO_PIN_RESET); //low gain mode for now
 	HAL_GPIO_WritePin(SX1238_TXEN_PORT, SX1238_TXEN_PIN, GPIO_PIN_RESET); //disable power amp transmitter
 
+	//reset trx
 	HAL_GPIO_WritePin(SX1238_RESET_PORT, SX1238_RESET_PIN, GPIO_PIN_RESET);
 	HAL_Delay(10); //delay for 10ms.
 	HAL_GPIO_WritePin(SX1238_RESET_PORT, SX1238_RESET_PIN, GPIO_PIN_SET);
@@ -28,9 +29,8 @@ void SX1238_Reset(void)
 void SX1238_Set_Mode(uint8_t newMode)
 {
 	unsigned char rcv1 = 0;
-	unsigned char rcv2;
+	//unsigned char rcv2;
 	unsigned char regVal;
-//	uint8_t foundFlag = 0;
 
 	if(newMode == _mode) //if it's the same mode, just return.
 	{
@@ -39,17 +39,11 @@ void SX1238_Set_Mode(uint8_t newMode)
 
 	regVal = newMode | 0x08;
 	SX1238_Write_Register(REG_OPMODE, regVal); //adding gausian filter too...
-	SX1238_Read_Register(REG_OPMODE, &rcv2);
-
+	//SX1238_Read_Register(REG_OPMODE, &rcv2);
 
 	while ((rcv1 & RF_IRQFLAGS1_MODEREADY) == 0x00) // wait for ModeReady
 	{
 		SX1238_Read_Register(REG_IRQFLAGS1, &rcv1);
-
-//		if((rcv1 & RF_IRQFLAGS1_MODEREADY) == 0x00)
-//		{
-//			foundFlag = 1;
-//		}
 	}
 	_mode = newMode;
 
@@ -88,7 +82,6 @@ void SX1238_Handle_Interrupt()
 	if (_mode == SX1238_MODE_TX && (irqflags2 & RF_IRQFLAGS2_PACKETSENT))
 	{
 		// A transmitter message has been fully sent
-		//Serial.println("Packet sent!");
 		SX1238_Set_Mode(SX1238_MODE_STANDBY);
 	}
 }
@@ -97,55 +90,47 @@ void SX1238_Send_Frame(uint8_t toAddress, const void* buffer, uint8_t bufferSize
 {
 
 	unsigned char TempBuffer1;
-	  SX1238_Set_Mode(SX1238_MODE_STANDBY); // turn off receiver to prevent reception while filling fifo
+	SX1238_Set_Mode(SX1238_MODE_STANDBY); // turn off receiver to prevent reception while filling fifo
 
-	  SX1238_Write_Register(REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_00); // DIO0 is "Packet Sent"
-	  if (bufferSize > MAX_DATA_LEN)
-	  {
-		  bufferSize = MAX_DATA_LEN;
-	  }
+	SX1238_Write_Register(REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_00); // DIO0 is "Packet Sent"
+	if (bufferSize > MAX_DATA_LEN)
+	{
+		bufferSize = MAX_DATA_LEN;
+	}
 
-	  // control byte. Note: we may not need this part.
-	  uint8_t CTLbyte = 0x00;
-	  if (sendACK)
-	  {
-		  CTLbyte = CTL_SENDACK;
-	  }else if(requestACK)
-	  {
-		  CTLbyte = CTL_REQACK;
-	  }
+	// control byte. Note: we may not need this part.
+	uint8_t CTLbyte = 0x00;
+	if (sendACK)
+	{
+		CTLbyte = CTL_SENDACK;
+	}else if(requestACK)
+	{
+		CTLbyte = CTL_REQACK;
+	}
 
+	// write to FIFO
+	SX1238_SPI_Select();
+	TempBuffer1 = REG_FIFO | 0x80;
+	HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
+	TempBuffer1 = bufferSize + 3;
+	HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
+	TempBuffer1 = toAddress;
+	HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
+	TempBuffer1 = NODE_ADDRESS;
+	HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
+	TempBuffer1 = CTLbyte;
+	HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
 
+	for (uint8_t i = 0; i < bufferSize; i++)
+	{
+		TempBuffer1 = ((uint8_t*) buffer)[i];
+		HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
+	}
 
-	  // write to FIFO
-	  SX1238_SPI_Select();
-	  TempBuffer1 = REG_FIFO | 0x80;
-	  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-	  TempBuffer1 = bufferSize + 3;
-	  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-	  TempBuffer1 = toAddress;
-	  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-	  TempBuffer1 = NODE_ADDRESS;
-	  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-	  TempBuffer1 = CTLbyte;
-	  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-	  //SPI.transfer(REG_FIFO | 0x80);
-	  //SPI.transfer(bufferSize + 3);
-	  //SPI.transfer(toAddress);
-	  //SPI.transfer(ADDRESS);
-	  //SPI.transfer(CTLbyte);
+	SX1238_SPI_Unselect();
 
-	  for (uint8_t i = 0; i < bufferSize; i++)
-	  {
-		  TempBuffer1 = ((uint8_t*) buffer)[i];
-		  HAL_SPI_Transmit(HSPI_INSTANCE, &TempBuffer1, 1, 10);
-		  //SPI.transfer(((uint8_t*) buffer)[i]);
-	  }
-
-	  SX1238_SPI_Unselect();
-
-	  // no need to wait for transmit mode to be ready since its handled by the radio
-	  SX1238_Set_Mode(SX1238_MODE_TX);
+	// no need to wait for transmit mode to be ready since its handled by the radio
+	SX1238_Set_Mode(SX1238_MODE_TX);
 }
 
 void SX1238_SPI_Select()
@@ -163,9 +148,8 @@ void SX1238_SPI_Unselect()
 /*Reads a register at the specified address and returns its value*/
 void SX1238_Read_Register(uint8_t addr, uint8_t *pOut)
 {
-	//uint8_t spiDataRcv;
-
 	unsigned char TempBuffer2;
+
 	//1. pull cs low to activate spi
 	SX1238_SPI_Select();
 
@@ -178,8 +162,6 @@ void SX1238_Read_Register(uint8_t addr, uint8_t *pOut)
 
 	//4. bring cs high to deactivate
 	SX1238_SPI_Unselect();
-
-	//return spiDataRcv;
 }
 
 /*Writes a value to the register at the given address*/
@@ -210,62 +192,61 @@ void SX1238_Init(void)
 	SX1238_Reset();
 
 	//initialize registers
-	unsigned char rcv2;
-
+	//unsigned char rcv2;
 
 	SX1238_Write_Register(REG_PACONFIG, 0x01); //output power to default
-	SX1238_Read_Register(REG_PACONFIG, &rcv2);
+	//SX1238_Read_Register(REG_PACONFIG, &rcv2);
 
 	SX1238_Write_Register(REG_FIFOTHRESH, 0x8f); //fifo start condition not empty
-	SX1238_Read_Register(REG_FIFOTHRESH, &rcv2);
+	//SX1238_Read_Register(REG_FIFOTHRESH, &rcv2);
 
 	SX1238_Write_Register(REG_PACKETCONFIG1, 0x80); //turn off crc
-	SX1238_Read_Register(REG_PACKETCONFIG1, &rcv2);
+	//SX1238_Read_Register(REG_PACKETCONFIG1, &rcv2);
 
 	SX1238_Write_Register(REG_PACKETCONFIG2, 0x40); //packet mode
-	SX1238_Read_Register(REG_PACKETCONFIG2, &rcv2);
+	//SX1238_Read_Register(REG_PACKETCONFIG2, &rcv2);
 
 	SX1238_Write_Register(REG_PREAMBLEMSB, 0x00); //preamble length
-	SX1238_Read_Register(REG_PREAMBLEMSB, &rcv2);
+	//SX1238_Read_Register(REG_PREAMBLEMSB, &rcv2);
 
 	SX1238_Write_Register(REG_PREAMBLELSB, 0x03);
-	SX1238_Read_Register(REG_PREAMBLELSB, &rcv2);
+	//SX1238_Read_Register(REG_PREAMBLELSB, &rcv2);
 
 	SX1238_Write_Register(REG_FRFMSB, 0xe4); //frequency 915MHz
-	SX1238_Read_Register(REG_FRFMSB, &rcv2);
+	//SX1238_Read_Register(REG_FRFMSB, &rcv2);
 
 	SX1238_Write_Register(REG_FRFMID, 0xc0);
-	SX1238_Read_Register(REG_FRFMID, &rcv2);
+	//SX1238_Read_Register(REG_FRFMID, &rcv2);
 
 	SX1238_Write_Register(REG_FRFLSB, 0x00);
-	SX1238_Read_Register(REG_FRFLSB, &rcv2);
+	//SX1238_Read_Register(REG_FRFLSB, &rcv2);
 
 	SX1238_Write_Register(REG_SYNCCONFIG, 0x91); //auto restart, sync on, fill auto, sync size 2 bytes
-	SX1238_Read_Register(REG_SYNCCONFIG, &rcv2);
+	//SX1238_Read_Register(REG_SYNCCONFIG, &rcv2);
 
 	SX1238_Write_Register(REG_SYNCVALUE1, 0x5A);
-	SX1238_Read_Register(REG_SYNCVALUE1, &rcv2);
+	//SX1238_Read_Register(REG_SYNCVALUE1, &rcv2);
 
 	SX1238_Write_Register(REG_SYNCVALUE2, 0x5A);
-	SX1238_Read_Register(REG_SYNCVALUE2, &rcv2);
+	//SX1238_Read_Register(REG_SYNCVALUE2, &rcv2);
 
 	SX1238_Write_Register(REG_BITRATEMSB, 0x1a); //bit rates etc...
-	SX1238_Read_Register(REG_BITRATEMSB, &rcv2);
+	//SX1238_Read_Register(REG_BITRATEMSB, &rcv2);
 
 	SX1238_Write_Register(REG_BITRATELSB, 0x0b);
-	SX1238_Read_Register(REG_BITRATELSB, &rcv2);
+	//SX1238_Read_Register(REG_BITRATELSB, &rcv2);
 
 	SX1238_Write_Register(REG_FDEVMSB, 0x00); //frequency deviation (deviation in Hz = fdev * 61)
-	SX1238_Read_Register(REG_FDEVMSB, &rcv2);
+	//SX1238_Read_Register(REG_FDEVMSB, &rcv2);
 
 	SX1238_Write_Register(REG_FDEVLSB, 0x52); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
-	SX1238_Read_Register(REG_FDEVLSB, &rcv2);
+	//SX1238_Read_Register(REG_FDEVLSB, &rcv2);
 
 	SX1238_Write_Register(REG_RXBW, 0x05);
-	SX1238_Read_Register(REG_RXBW, &rcv2);
+	//SX1238_Read_Register(REG_RXBW, &rcv2);
 
 	SX1238_Write_Register(REG_NODEADRS, NODE_ADDRESS); //setting node address
-	SX1238_Read_Register(REG_NODEADRS, &rcv2);
+	//SX1238_Read_Register(REG_NODEADRS, &rcv2);
 
 	SX1238_Set_Mode(SX1238_MODE_STANDBY); //enter standby mode
 
