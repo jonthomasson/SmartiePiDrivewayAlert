@@ -23,23 +23,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   9 .ARM.attributes 00000028  00000000  00000000  00020004  2**0
                   CONTENTS, READONLY
- 10 .debug_info   00011638  00000000  00000000  0002002c  2**0
+ 10 .debug_info   0001163b  00000000  00000000  0002002c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_abbrev 000025a1  00000000  00000000  00031664  2**0
+ 11 .debug_abbrev 000025a1  00000000  00000000  00031667  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00003d99  00000000  00000000  00033c05  2**0
+ 12 .debug_loc    00003d99  00000000  00000000  00033c08  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000718  00000000  00000000  000379a0  2**3
+ 13 .debug_aranges 00000718  00000000  00000000  000379a8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000880  00000000  00000000  000380b8  2**3
+ 14 .debug_ranges 00000880  00000000  00000000  000380c0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_line   00004ce1  00000000  00000000  00038938  2**0
+ 15 .debug_line   00004ce1  00000000  00000000  00038940  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_str    00002aa6  00000000  00000000  0003d619  2**0
+ 16 .debug_str    00002aa6  00000000  00000000  0003d621  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .comment      0000007c  00000000  00000000  000400bf  2**0
+ 17 .comment      0000007c  00000000  00000000  000400c7  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  0000134c  00000000  00000000  0004013c  2**2
+ 18 .debug_frame  0000134c  00000000  00000000  00040144  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -5564,103 +5564,103 @@ void SX1238_Init(void)
 	//initialize registers
 	//unsigned char rcv2;
 
-	SX1238_Write_Register(REG_PACONFIG, 0x01); //output power to default
+	SX1238_Write_Register(REG_PACONFIG, PACONFIG_OUTPUTPOWER_1); //output power to default
  800211a:	2101      	movs	r1, #1
  800211c:	2009      	movs	r0, #9
  800211e:	f7ff ff17 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_PACONFIG, &rcv2);
 
-	SX1238_Write_Register(REG_FIFOTHRESH, 0x8f); //fifo start condition not empty
+	SX1238_Write_Register(REG_FIFOTHRESH, FIFOTHRESH_TXSTARTCONDITION_FIFOEMPTY | FIFOTHRESH_FIFOTHRESHOLD); //0X8F fifo start condition not empty
  8002122:	218f      	movs	r1, #143	; 0x8f
  8002124:	2035      	movs	r0, #53	; 0x35
  8002126:	f7ff ff13 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FIFOTHRESH, &rcv2);
 
-	SX1238_Write_Register(REG_PACKETCONFIG1, 0x80); //turn off crc
+	SX1238_Write_Register(REG_PACKETCONFIG1, PACKETCONFIG1_PACKETFORMAT_VARIABLE); //0X80 turn off crc
  800212a:	2180      	movs	r1, #128	; 0x80
  800212c:	2030      	movs	r0, #48	; 0x30
  800212e:	f7ff ff0f 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_PACKETCONFIG1, &rcv2);
 
-	SX1238_Write_Register(REG_PACKETCONFIG2, 0x40); //packet mode
+	SX1238_Write_Register(REG_PACKETCONFIG2, PACKETCONFIG2_DATAMODE_PACKET); //0X40 packet mode
  8002132:	2140      	movs	r1, #64	; 0x40
  8002134:	2031      	movs	r0, #49	; 0x31
  8002136:	f7ff ff0b 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_PACKETCONFIG2, &rcv2);
 
-	SX1238_Write_Register(REG_PREAMBLEMSB, 0x00); //preamble length
+	SX1238_Write_Register(REG_PREAMBLEMSB, PREAMBLEMSB); //0X00 preamble length
  800213a:	2100      	movs	r1, #0
  800213c:	2025      	movs	r0, #37	; 0x25
  800213e:	f7ff ff07 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_PREAMBLEMSB, &rcv2);
 
-	SX1238_Write_Register(REG_PREAMBLELSB, 0x03);
+	SX1238_Write_Register(REG_PREAMBLELSB, PREAMBLELSB); //0X03
  8002142:	2103      	movs	r1, #3
  8002144:	2026      	movs	r0, #38	; 0x26
  8002146:	f7ff ff03 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_PREAMBLELSB, &rcv2);
 
-	SX1238_Write_Register(REG_FRFMSB, 0xe4); //frequency 915MHz
+	SX1238_Write_Register(REG_FRFMSB, FRFMSB); // 0XE4 frequency 915MHz
  800214a:	21e4      	movs	r1, #228	; 0xe4
  800214c:	2006      	movs	r0, #6
  800214e:	f7ff feff 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FRFMSB, &rcv2);
 
-	SX1238_Write_Register(REG_FRFMID, 0xc0);
+	SX1238_Write_Register(REG_FRFMID, FRFMID);
  8002152:	21c0      	movs	r1, #192	; 0xc0
  8002154:	2007      	movs	r0, #7
  8002156:	f7ff fefb 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FRFMID, &rcv2);
 
-	SX1238_Write_Register(REG_FRFLSB, 0x00);
+	SX1238_Write_Register(REG_FRFLSB, FRFLSB);
  800215a:	2100      	movs	r1, #0
  800215c:	2008      	movs	r0, #8
  800215e:	f7ff fef7 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FRFLSB, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCCONFIG, 0x91); //auto restart, sync on, fill auto, sync size 2 bytes
+	SX1238_Write_Register(REG_SYNCCONFIG, SYNCCONFIG_AUTORESTARTRXMODE_ONWITHPLL | SYNCCONFIG_SYNC_ON | SYNCCONFIG_SYNCSIZE_1); //0x91 auto restart, sync on, fill auto, sync size 2 bytes
  8002162:	2191      	movs	r1, #145	; 0x91
  8002164:	2027      	movs	r0, #39	; 0x27
  8002166:	f7ff fef3 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_SYNCCONFIG, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCVALUE1, 0x5A);
+	SX1238_Write_Register(REG_SYNCVALUE1, SYNCVALUE1);
  800216a:	215a      	movs	r1, #90	; 0x5a
  800216c:	2028      	movs	r0, #40	; 0x28
  800216e:	f7ff feef 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_SYNCVALUE1, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCVALUE2, 0x5A);
+	SX1238_Write_Register(REG_SYNCVALUE2, SYNCVALUE2);
  8002172:	215a      	movs	r1, #90	; 0x5a
  8002174:	2029      	movs	r0, #41	; 0x29
  8002176:	f7ff feeb 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_SYNCVALUE2, &rcv2);
 
-	SX1238_Write_Register(REG_BITRATEMSB, 0x1a); //bit rates etc...
+	SX1238_Write_Register(REG_BITRATEMSB, BITRATEMSB); //bit rates etc...
  800217a:	211a      	movs	r1, #26
  800217c:	2002      	movs	r0, #2
  800217e:	f7ff fee7 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_BITRATEMSB, &rcv2);
 
-	SX1238_Write_Register(REG_BITRATELSB, 0x0b);
+	SX1238_Write_Register(REG_BITRATELSB, BITRATELSB);
  8002182:	210b      	movs	r1, #11
  8002184:	2003      	movs	r0, #3
  8002186:	f7ff fee3 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_BITRATELSB, &rcv2);
 
-	SX1238_Write_Register(REG_FDEVMSB, 0x00); //frequency deviation (deviation in Hz = fdev * 61)
+	SX1238_Write_Register(REG_FDEVMSB, FDEVMSB); //frequency deviation (deviation in Hz = fdev * 61)
  800218a:	2100      	movs	r1, #0
  800218c:	2004      	movs	r0, #4
  800218e:	f7ff fedf 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FDEVMSB, &rcv2);
 
-	SX1238_Write_Register(REG_FDEVLSB, 0x52); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
+	SX1238_Write_Register(REG_FDEVLSB, FDEVLSB); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
  8002192:	2152      	movs	r1, #82	; 0x52
  8002194:	2005      	movs	r0, #5
  8002196:	f7ff fedb 	bl	8001f50 <SX1238_Write_Register>
 	//SX1238_Read_Register(REG_FDEVLSB, &rcv2);
 
-	SX1238_Write_Register(REG_RXBW, 0x05);
+	SX1238_Write_Register(REG_RXBW, RXBW);
  800219a:	2105      	movs	r1, #5
  800219c:	2012      	movs	r0, #18
  800219e:	f7ff fed7 	bl	8001f50 <SX1238_Write_Register>

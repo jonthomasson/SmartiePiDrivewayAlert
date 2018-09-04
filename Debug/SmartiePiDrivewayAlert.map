@@ -1379,7 +1379,7 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../l
                 0x000004ae       0x1e c:/program files (x86)/atollic/truestudio for stm32 9.0.1/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv6-m/crtn.o
 OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x11638
+.debug_info     0x00000000    0x1163b
  .debug_info    0x00000000     0x100e Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o
  .debug_info    0x0000100e     0x1156 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_cortex.o
  .debug_info    0x00002164      0xede Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.o
@@ -1389,13 +1389,13 @@ OUTPUT(SmartiePiDrivewayAlert.elf elf32-littlearm)
  .debug_info    0x00007273     0x2226 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.o
  .debug_info    0x00009499     0x1932 Src\SX1238\SX1238_STM32_Driver.o
  .debug_info    0x0000adcb      0xdee Src\gpio.o
- .debug_info    0x0000bbb9     0x1649 Src\main.o
- .debug_info    0x0000d202     0x110c Src\spi.o
- .debug_info    0x0000e30e      0xbb0 Src\stm32l0xx_hal_msp.o
- .debug_info    0x0000eebe      0x9f7 Src\stm32l0xx_it.o
- .debug_info    0x0000f8b5      0xb9e Src\system_stm32l0xx.o
- .debug_info    0x00010453     0x1152 Src\usart.o
- .debug_info    0x000115a5       0x93 startup\startup_stm32l073xx.o
+ .debug_info    0x0000bbb9     0x164c Src\main.o
+ .debug_info    0x0000d205     0x110c Src\spi.o
+ .debug_info    0x0000e311      0xbb0 Src\stm32l0xx_hal_msp.o
+ .debug_info    0x0000eec1      0x9f7 Src\stm32l0xx_it.o
+ .debug_info    0x0000f8b8      0xb9e Src\system_stm32l0xx.o
+ .debug_info    0x00010456     0x1152 Src\usart.o
+ .debug_info    0x000115a8       0x93 startup\startup_stm32l073xx.o
 
 .debug_abbrev   0x00000000     0x25a1
  .debug_abbrev  0x00000000      0x2c0 Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.o

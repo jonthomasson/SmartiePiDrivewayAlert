@@ -141,6 +141,78 @@
 #define RF_DIOMAPPING1_DIO3_10            0x02
 #define RF_DIOMAPPING1_DIO3_11            0x03
 
+//FIFOTHRESH
+#define FIFOTHRESH_TXSTARTCONDITION_FIFOEMPTY        0x80 //FifoEmpty goes low(i.e. at least one byte in the FIFO)
+#define FIFOTHRESH_TXSTARTCONDITION_FIFOlevel        0x00 //FifoLevel (i.e. the number of bytes in the FIFO exceeds FifoThreshold
+#define FIFOTHRESH_FIFOTHRESHOLD        			 0x0F //Used to trigger FifoLevel interrupt, when: nbr of bytes in FIFO >= FifoThreshold + 1
+
+//PACKETCONFIG1
+#define PACKETCONFIG1_PACKETFORMAT_VARIABLE          0x80 //packet format used: variable length
+#define PACKETCONFIG1_DCFREE_MANCHESTER              0x20
+#define PACKETCONFIG1_DCFREE_WHITENING               0x40
+#define PACKETCONFIG1_CRC_ON                         0x10
+#define PACKETCONFIG1_CRCAUTOCLEAROFF_DONOTCLEARFIFO 0x08 //Defines the behavior of the packet handler when crc check fails. Do Not clear FIFO. PayloadReady interrupt issued.
+#define PACKETCONFIG1_ADDRESSFILTERING_NODE          0x02 //Defines address based filtering in Rx: Address field must match NodeAddress
+#define PACKETCONFIG1_ADDRESSFILTERING_NODEORBROAD   0x04 //Defines address based filtering in Rx: Address field must match NodeAddress or BroadcastAddress
+#define PACKETCONFIG1_CRCWHITENINGTYPE_IBM           0x01 //Selects the CRC and whitening algorithms: IBM CRC with alternate whitening
+
+//PACKETCONFIG2
+#define PACKETCONFIG2_DATAMODE_PACKET                0x40 //Data processing mode: Packet
+#define PACKETCONFIG2_IOHOME_ON                      0x20 //Enables the ioHomeControl compatibility mode
+#define PACKETCONFIG2_BEACON_ON                      0x08 //Enables the Beacon mode in Fixed packet format
+
+//SYNCCONFIG
+#define SYNCCONFIG_AUTORESTARTRXMODE_ONWITHOUTPLL    0x40 //Controls the automatic restart of the receiver after the reception of a valid packet. On, without waiting for PLL to re-lock.
+#define SYNCCONFIG_AUTORESTARTRXMODE_ONWITHPLL       0x80 //Controls the automatic restart of the receiver after the reception of a valid packet. On, wait for PLL to lock (freq changed).
+#define SYNCCONFIG_PREAMBLEPOLARITY_55               0x20 //Sets the polarity of the Preamble
+#define SYNCCONFIG_SYNC_ON                           0x10 //Enables the Sync word generation and detection.
+#define SYNCCONFIG_FIFOFILLCONDITION_FILLCONDITION   0X08 //FIFO filling condition: as long as FifoFillCondition is set.
+#define SYNCCONFIG_SYNCSIZE_3                        0X03 //Size of the Sync word
+#define SYNCCONFIG_SYNCSIZE_2                        0X02 //Size of the Sync word
+#define SYNCCONFIG_SYNCSIZE_1                        0X01 //Size of the Sync word
+
+//PACONFIG
+#define PACONFIG_OUTPUTPOWER_0						0x00 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_1						0x01 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_2						0x02 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_3						0x03 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_4						0x04 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_5						0x05 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_6						0x06 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_7						0x07 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_8						0x08 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_9						0x09 //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_10						0x0a //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_11						0x0b //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_12						0x0c //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_13						0x0d //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_14						0x0e //Pout = 20 + OutputPower [dBm] , on ANT pin
+#define PACONFIG_OUTPUTPOWER_15						0x0f //Pout = 20 + OutputPower [dBm] , on ANT pin
+
+//preamble
+#define PREAMBLEMSB									0X00
+#define PREAMBLELSB									0X03
+
+//frf
+#define FRFMSB									0xe4 //915MHz
+#define FRFMID									0xc0 //915MHz
+#define FRFLSB									0x00 //915MHz
+
+//sync value
+#define SYNCVALUE1								0x5A
+#define SYNCVALUE2								0x5A
+
+//bitrate
+#define BITRATEMSB								0x1a //default bit rate 4.8kb/s
+#define BITRATELSB								0x0b //default bit rate 4.8kb/s
+
+//fdev
+#define FDEVMSB								    0x00 //default 5 kHz
+#define FDEVLSB								    0x52 //default 5 kHz
+
+//rxbw
+#define RXBW								    0x05
+
 
 //transceiver modes
 #define SX1238_MODE_SLEEP         0 //none

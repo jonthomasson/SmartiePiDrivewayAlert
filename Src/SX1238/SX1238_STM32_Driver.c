@@ -194,55 +194,55 @@ void SX1238_Init(void)
 	//initialize registers
 	//unsigned char rcv2;
 
-	SX1238_Write_Register(REG_PACONFIG, 0x01); //output power to default
+	SX1238_Write_Register(REG_PACONFIG, PACONFIG_OUTPUTPOWER_1); //output power to default
 	//SX1238_Read_Register(REG_PACONFIG, &rcv2);
 
-	SX1238_Write_Register(REG_FIFOTHRESH, 0x8f); //fifo start condition not empty
+	SX1238_Write_Register(REG_FIFOTHRESH, FIFOTHRESH_TXSTARTCONDITION_FIFOEMPTY | FIFOTHRESH_FIFOTHRESHOLD); //0X8F fifo start condition not empty
 	//SX1238_Read_Register(REG_FIFOTHRESH, &rcv2);
 
-	SX1238_Write_Register(REG_PACKETCONFIG1, 0x80); //turn off crc
+	SX1238_Write_Register(REG_PACKETCONFIG1, PACKETCONFIG1_PACKETFORMAT_VARIABLE); //0X80 turn off crc
 	//SX1238_Read_Register(REG_PACKETCONFIG1, &rcv2);
 
-	SX1238_Write_Register(REG_PACKETCONFIG2, 0x40); //packet mode
+	SX1238_Write_Register(REG_PACKETCONFIG2, PACKETCONFIG2_DATAMODE_PACKET); //0X40 packet mode
 	//SX1238_Read_Register(REG_PACKETCONFIG2, &rcv2);
 
-	SX1238_Write_Register(REG_PREAMBLEMSB, 0x00); //preamble length
+	SX1238_Write_Register(REG_PREAMBLEMSB, PREAMBLEMSB); //0X00 preamble length
 	//SX1238_Read_Register(REG_PREAMBLEMSB, &rcv2);
 
-	SX1238_Write_Register(REG_PREAMBLELSB, 0x03);
+	SX1238_Write_Register(REG_PREAMBLELSB, PREAMBLELSB); //0X03
 	//SX1238_Read_Register(REG_PREAMBLELSB, &rcv2);
 
-	SX1238_Write_Register(REG_FRFMSB, 0xe4); //frequency 915MHz
+	SX1238_Write_Register(REG_FRFMSB, FRFMSB); // 0XE4 frequency 915MHz
 	//SX1238_Read_Register(REG_FRFMSB, &rcv2);
 
-	SX1238_Write_Register(REG_FRFMID, 0xc0);
+	SX1238_Write_Register(REG_FRFMID, FRFMID);
 	//SX1238_Read_Register(REG_FRFMID, &rcv2);
 
-	SX1238_Write_Register(REG_FRFLSB, 0x00);
+	SX1238_Write_Register(REG_FRFLSB, FRFLSB);
 	//SX1238_Read_Register(REG_FRFLSB, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCCONFIG, 0x91); //auto restart, sync on, fill auto, sync size 2 bytes
+	SX1238_Write_Register(REG_SYNCCONFIG, SYNCCONFIG_AUTORESTARTRXMODE_ONWITHPLL | SYNCCONFIG_SYNC_ON | SYNCCONFIG_SYNCSIZE_1); //0x91 auto restart, sync on, fill auto, sync size 2 bytes
 	//SX1238_Read_Register(REG_SYNCCONFIG, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCVALUE1, 0x5A);
+	SX1238_Write_Register(REG_SYNCVALUE1, SYNCVALUE1);
 	//SX1238_Read_Register(REG_SYNCVALUE1, &rcv2);
 
-	SX1238_Write_Register(REG_SYNCVALUE2, 0x5A);
+	SX1238_Write_Register(REG_SYNCVALUE2, SYNCVALUE2);
 	//SX1238_Read_Register(REG_SYNCVALUE2, &rcv2);
 
-	SX1238_Write_Register(REG_BITRATEMSB, 0x1a); //bit rates etc...
+	SX1238_Write_Register(REG_BITRATEMSB, BITRATEMSB); //bit rates etc...
 	//SX1238_Read_Register(REG_BITRATEMSB, &rcv2);
 
-	SX1238_Write_Register(REG_BITRATELSB, 0x0b);
+	SX1238_Write_Register(REG_BITRATELSB, BITRATELSB);
 	//SX1238_Read_Register(REG_BITRATELSB, &rcv2);
 
-	SX1238_Write_Register(REG_FDEVMSB, 0x00); //frequency deviation (deviation in Hz = fdev * 61)
+	SX1238_Write_Register(REG_FDEVMSB, FDEVMSB); //frequency deviation (deviation in Hz = fdev * 61)
 	//SX1238_Read_Register(REG_FDEVMSB, &rcv2);
 
-	SX1238_Write_Register(REG_FDEVLSB, 0x52); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
+	SX1238_Write_Register(REG_FDEVLSB, FDEVLSB); //see datasheet for max fdev limits (https://www.semtech.com/uploads/documents/sx1238.pdf page 22)
 	//SX1238_Read_Register(REG_FDEVLSB, &rcv2);
 
-	SX1238_Write_Register(REG_RXBW, 0x05);
+	SX1238_Write_Register(REG_RXBW, RXBW);
 	//SX1238_Read_Register(REG_RXBW, &rcv2);
 
 	SX1238_Write_Register(REG_NODEADRS, NODE_ADDRESS); //setting node address
